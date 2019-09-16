@@ -6,14 +6,17 @@ import { Injectable } from '@angular/core';
 export class DijkstraService {
 
   graph: any = []
+  path: any = []
+  max:number = 2147483647
 
   constructor() { }
 
   setGraph(edges, n){
+    this.path = []
     this.graph = []
-    for(let i=0;i<n;i++){
+    for(let i=0;i<=n;i++){
       this.graph.push([]);
-      for(let j=0;j<n;j++){
+      for(let j=0;j<=n;j++){
         this.graph[i].push(0)
       }
     }
@@ -25,11 +28,11 @@ export class DijkstraService {
   }
 
   dijkstra(n){
-    debugger
+    //debugger
     let dist = new Array(n+1)
     let sset = new Array(n+1)
-    for(let i=0;i<=n;i++){
-      dist[i] = Math.max();
+    for(let i=1;i<=n;i++){
+      dist[i] = this.max;
       sset[i] = false
     }
     let parent = new Array(n+1)
@@ -39,27 +42,33 @@ export class DijkstraService {
       let u = this.minDistance(dist, sset, n);
       sset[u] = true;
       for(let v=1;v<=n;v++){
-        if(!sset[v] && this.graph[u][v] && dist[u]!=Math.max() &&
+        if(!sset[v] && this.graph[u][v] && dist[u]!=this.max &&
            dist[u] + this.graph[u][v] < dist[v]){
           dist[v] = dist[u] + this.graph[u][v];
           parent[v] = u;
         }
       }
     }
-    for(let i=1;i<n;i++)
-    console.log("Shortest path: ", this.printPath(parent, i))
+    //debugger
+    let index = 0
+    for(let i=1;i<=n;i++){
+      this.path.push([])
+      this.printPath(parent, i, index)
+      index++
+    }
+    return this.path;
   }
 
-  printPath(parent, j){
+  printPath(parent, j, index){
     if(parent[j] == -1){
       return
     }
-    this.printPath(parent, parent[j])
-    console.log(j, " ")
+    this.printPath(parent, parent[j], index)
+    this.path[index].push(j)
   }
 
   minDistance(dist, sset, n){
-    let min = Math.max(), min_index
+    let min = this.max, min_index
     for(let v=1;v<=n;v++){
       if(!sset[v] && dist[v] <= min){
         min = dist[v]
