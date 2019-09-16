@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-danger btn-sm btn-block" (click)="reset()">
+            Resetar
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-warning btn-sm btn-block" (click)="longestPath()">
+            Opção 1
+        </button>
+        <button class="btn btn-warning btn-sm btn-block" (click)="shortestPath()">
+            Opção 2
+        </button>
+        <button class="btn btn-warning btn-sm btn-block" (click)="dfs()">
+            Opção 3
+        </button>
+        <button class="btn btn-warning btn-sm btn-block" (click)="biggestCC()">
+            Opção 4
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div *ngIf="(!showMostImportant && !showLeastImportant 
+        && !showAllConcepts && !showMostComplex)" class="jumbotron">
+            <b *ngFor="let relation of relations">
+                <em>{{ relation.conceptU }} {{relation.connector}} {{ relation.conceptV }}</em>
+                <em *ngIf="relations.length > 0">, </em>
+            </b>
+        </div>
+        <div *ngIf="showMostImportant" class="jumbotron">
+            
+        </div>
+        <div *ngIf="showLeastImportant" class="jumbotron">
+            
+        </div>
+        <div  *ngIf="showAllConcepts" class="jumbotron">
+            
+        </div>
+        <div *ngIf="showMostComplex" class="jumbotron">
+
+        </div>
+    </div>
+</div>

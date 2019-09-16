@@ -1,0 +1,84 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Conceitos adicionados</h5>
+    <p class="card-text" *ngIf="concepts.length == 0">Adicione conceitos para montar o mapa.</p>
+    <div>
+      <span *ngFor="let concept of concepts" 
+            (click)=removeConcept($event,concept) 
+            class="badge badge-pill badge-primary">{{concept.name}}
+      </span>
+    </div>
+    <button *ngIf="concepts.length > 0" class="btn btn-danger" (click)="showRelationWindow()">Relacionar</button>
+  </div>
+</div>
+<div *ngIf="relationWindow">
+<div class="card">
+  <div class="card-body">
+  <form #relationForm="ngForm">
+    <div class="form-group">
+      <div class="row">
+          <div class="col-md-3">
+            <label for="selectConcept1">Conceito 1</label>
+            <select class="form-control" id="selectConcept1"
+            [(ngModel)]="model.conceptU" name="selectConcept1">
+              <option  *ngFor="let concept of concepts" [value]="concept.id">{{concept.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="relationConcepts">Relação</label>
+            <textarea placeholder="Descreva" name="relDescription"
+            id="relDescription" aria-describedby="relDescriptionHint" class="form-control" rows="5"
+            [(ngModel)]="model.connector">
+            </textarea>
+            <small id="relDescriptionHint" class="form-text text-muted">
+              Descreva como os conceitos se relacionam
+            </small>
+            <input placeholder="Relevância" type="number" class="form-control"
+            id="relev" aria-describedby="relevHint" 
+            [(ngModel)]="model.relevance" name="relev">
+            <small id="relevHint" class="form-text text-muted">
+              Atribua a relevância da relação em uma escala de 0 a 10.
+            </small>
+          </div>
+          <div class="col-md-3">
+            <label for="selectConcept2">Conceito 2</label>
+            <select class="form-control" id="selectConcept2"
+            [(ngModel)]="model.conceptV" name="selectConcept2">
+              <option  *ngFor="let concept of concepts" [value]="concept.id">{{concept.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-success" (click)="validateRelation()">
+              Salvar relação
+            </button>
+            <div *ngIf="showAlert" class="alert alert-danger" role="alert">
+              Relacione conceitos diferentes!
+            </div>
+            <div *ngIf="showAlert3" class="alert alert-danger" role="alert">
+              Essa relação já existe!
+            </div>
+            <div *ngIf="showAlert2" class="alert alert-danger" role="alert">
+              Insira uma descrição da relação/relevância válida.
+            </div>
+            <button *ngIf="!showAlert && !showAlert2 && !showAlert3 && relations.length > 0"
+              class="btn btn-success" (click)="mountGraph()">
+              Visualizar
+            </button>
+          </div>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+</div>
+<div *ngIf="graphWindow">
+  <div class="card">
+    <div class="card-body">
+      <app-graph-algo
+      [relations]="relations"
+      [concepts]="concepts"
+      >
+      </app-graph-algo>
+    </div>
+  </div>
+</div>
