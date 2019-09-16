@@ -23,6 +23,7 @@
     <div class="col-md-12">
         <div *ngIf="(!showMostImportant && !showLeastImportant 
         && !showAllConcepts && !showMostComplex)" class="jumbotron">
+            <h5>Todas as relações</h5>
             <p *ngFor="let conInit of conceptInit">
                 <b><em>{{ conInit }}</em></b>
             </p>
@@ -31,6 +32,7 @@
             
         </div>
         <div *ngIf="showLeastImportant" class="jumbotron">
+            <h5>Conceitos formados</h5>
             <p *ngFor="let conFinal of conceptFinal">
                 <b><em>{{ conFinal }}</em></b>
             </p>

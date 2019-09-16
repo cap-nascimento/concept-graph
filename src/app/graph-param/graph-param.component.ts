@@ -23,7 +23,7 @@ export class GraphParamComponent implements OnInit {
     
   }
 
-  addConcept(){
+  addConcept(event){
     var size = this.concepts.length;
     if(size > 0){
       this.model.id = this.concepts[size-1].id+1;
